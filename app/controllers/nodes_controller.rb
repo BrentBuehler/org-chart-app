@@ -6,4 +6,13 @@ class NodesController < ApplicationController
       format.json { render json: all_nodes }
     end
   end
+
+  def update
+    node = Node.find(params[:id])
+
+    node.update_attributes(parent_id: params[:parent_id]) if node.id != params[:parent_id]
+
+    all_nodes = Node.all
+    render json: all_nodes
+  end
 end

@@ -1,34 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-const hasChildren = ({ node, nodes }) =>
-  nodes.some((item) => item.parent_id === node.id);
-const getChildren = ({ node, nodes }) =>
-  nodes.filter((item) => item.parent_id === node.id);
-
-const Level = ({ nodes, parent }) => {
-  const name = parent.last_name ? (
-    <div className="name">
-      {parent.first_name} {parent.last_name}
-    </div>
-  ) : null;
-
-  if (!hasChildren({ nodes, node: parent })) {
-    return name;
-  }
-
-  return (
-    <>
-      {name}
-      <ul>
-        {getChildren({ node: parent, nodes }).map((child) => (
-          <li key={child.id}>
-            <Level nodes={nodes} parent={child} />
-          </li>
-        ))}
-      </ul>
-    </>
-  );
-};
+import { Level } from './Level';
 
 const App = () => {
   const [nodes, setNodes] = useState(null);
@@ -50,7 +21,7 @@ const App = () => {
     <>
       <h1>Org Chart</h1>
       {nodes ? (
-        <Level nodes={nodes} parent={nodes.find((node) => node.root)} />
+        <Level nodes={nodes} parent={nodes.find((node) => node.root)} updateNodes={setNodes} />
       ) : (
         "loading..."
       )}
